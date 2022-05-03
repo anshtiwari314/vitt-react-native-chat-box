@@ -5,8 +5,8 @@ export function SendingMessage({Component,query,time}){
     return <View style={styles.SM}>
                 <View style={styles.SM_container}>
                     {/* <Text style={styles.text}>Latest News</Text> */}
-                    <Component data={query}/>
-                    <Text style={styles.time}>{time}</Text>
+                    <Component data={query} colorType={styles.SM_text}/>
+                    <Text style={styles.SM_time}>{time}</Text>
                 </View>
             </View>
 }
@@ -17,8 +17,8 @@ export function ReceivingMessage({Component,query,time}){
         <View style={styles.RM}>
             <View style={styles.RM_container}>
                 {/* <Text style={styles.text}>Hello Guest, can I help you by finding your product of interest?</Text> */}
-                <Component data={query}/>
-                <Text style={styles.time}>{time}</Text>
+                <Component data={query} colorType={styles.RM_text}/>
+                <Text style={styles.RM_time}>{time}</Text>
             </View>
         </View>
     )
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
         justifyContent:"flex-start",
         alignItems:"center",
         margin:10,
-        boxSizing:"border-box",
         //backgroundColor:"#219f6e"
     },
     RM_container:{
@@ -46,14 +45,20 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius:0,
         backgroundColor:"#969f6e",
         
+        shadowColor:"black",
+        shadowOffset:{width:10,height:20},
+        elevation:10,
+        shadowRadius:3,
+        shadowOpacity:1
+
     },
     SM:{
         flexDirection:"row",
         justifyContent:"flex-end",
         alignItems:"center",
         margin:10,
-        boxSizing:"border-box",
         //backgroundColor:"#219f6e"
+        
     },
     SM_container:{
         // position:"absolute",
@@ -67,15 +72,27 @@ const styles = StyleSheet.create({
         padding:10,
         borderRadius:20,
         borderBottomRightRadius:0,
-        backgroundColor:"#a8a8a8"
+        backgroundColor:"#f1f3f6",
+
+        shadowColor:"black",
+        shadowOffset:{width:30,height:10},
+        elevation:10,
+        shadowRadius:3,
+        shadowOpacity:1
     },
-   
-    text:{
-        color:"white",
-        //backgroundColor:"green"
+    RM_text:{
+        color:"white"
     },
-    time:{
+    SM_text:{
+        color:"#3e593c"
+    },
+    RM_time:{
         marginTop:10,
         color:"white"
+    },
+    SM_time:{
+        marginTop:10,
+        color:"#3e593c"
     }
+    
 })

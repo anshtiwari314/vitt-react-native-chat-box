@@ -4,7 +4,7 @@ import { useApiData } from '../contexts/ApiDataProvider'
 
 export default function ResponseButtons(){
 
-    const {responseButton,allRequests,setAllRequests,loading,setLoading,handleSearchQuery} =useApiData()
+    const {responseButton,allRequests,setAllRequests,loading,setLoading,handleSearchQuery,scrollHandler} =useApiData()
    
     return(
         // RB => Response Buttons
@@ -53,4 +53,3 @@ const styles = StyleSheet.create({
         color:"black"
     }
 })
-

@@ -9,7 +9,7 @@ import BottomSheet from './BottomSheet'
 export default function BottomSheetIcon(){
 
     // BSB => Bottom sheet Icon
-    const {setVisibleBottomSheet} = useInternalState()
+    const {visibleBottomSheet,setVisibleBottomSheet} = useInternalState()
     
     return (
         <>
@@ -17,7 +17,7 @@ export default function BottomSheetIcon(){
             <Pressable style={styles.BSI_button} onPress={()=>setVisibleBottomSheet(prev=>!prev)}>
                 <Image 
                     style={styles.BSI_button_image}
-                    source={require("../images/arrowUp.png")}    
+                    source={visibleBottomSheet ?require('../images/arrowDown.png'): require("../images/arrowUp.png")}    
                 />
             </Pressable>
         </View>
@@ -26,35 +26,14 @@ export default function BottomSheetIcon(){
 }
 
 const styles = StyleSheet.create({
-    BS:{
-        position:"absolute",
-        bottom:100,
-        width:"90%",
-        marginLeft:"3%",
-        backgroundColor:"white",
-        borderWidth:2,
-        borderColor:"gray"
-    },
-    BS_item:{
-        padding:8,
-        paddingLeft:5,
-        // backgroundColor:"pink",
-        borderWidth:1,
-        borderColor:"gray"
-    },
-    BS_item_button:{
-
-    },
-    BS_item_button_text:{
-        color:"black"
-    },
+    
     BSI:{
         position:"absolute",
-        bottom:100,
+        bottom:0,
         right:5,
         zIndex:5,
-       // borderRadius:50,
-        
+        // borderRadius:50,
+        //backgroundColor:"red"
     },
     BSI_button:{
         borderRadius:50,

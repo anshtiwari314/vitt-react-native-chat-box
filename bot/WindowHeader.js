@@ -3,16 +3,14 @@ import {Text,View,Image,StyleSheet, Pressable} from 'react-native'
 import { useInternalState } from '../contexts/InternalStateProvider'
 
 export default function WindowHeader(){
-
-    const {setShowChatWindow} = useInternalState()
-
     
+
+    const {keyboardStatus} = useInternalState()
+
+
     return (
-        <View style={styles.container}>
+        <View style={{flex:keyboardStatus ? 2: 2,backgroundColor:"#c72229",justifyContent:"space-between",flexDirection:"column"}}>
             <View style={styles.contA}>
-                <Pressable onPress={()=>{setShowChatWindow(false)}}>
-                    <Image  style={styles.contA_image} source={require("../images/remove.png")}/>
-                </Pressable>
                 
             </View>
             <View style={styles.contB}>
@@ -36,11 +34,18 @@ export default function WindowHeader(){
 const styles=StyleSheet.create({
     container:{
         width:"100%",
-        backgroundColor:"#c72229"
+        backgroundColor:"#c72229",
+        position:"relative",
+        flexDirection:"column",
+        justifyContent:"space-between",
+        // height:100,
+        
     },
     contA:{
         position:"relative",
-        height:30,
+        // height:"20%",
+        flex:1
+        //backgroundColor:"violet"
     },
     contA_image:{
         width:20,
@@ -50,17 +55,21 @@ const styles=StyleSheet.create({
         right:10
     },
     contB:{
+        // height:"35%",
+        flex:4,
         width:"95%",
         marginLeft:"2.5%",
         flexDirection:"row",
         justifyContent:"space-between",
         alignItems:"flex-end",
         // borderTopWidth:1,
-        borderColor:'#e38f81'
-    
+        //borderColor:'#e38f81',
+        //backgroundColor:"orange",
+        
     },
     contB_textWrapper:{
-        
+        marginTop:0,
+        paddingTop:0
     },
     contB_textWrapper_text:{
         color:"white",
@@ -72,12 +81,25 @@ const styles=StyleSheet.create({
         height:30,
     },
     contC:{
-        backgroundColor:"#969f6e",
-        marginTop:5
+        // position:"absolute",
+        // bottom:0,
+        //height:
+        flex:5,
+        marginTop:2,
+        width:"100%",
+        display:"flex",
+        justifyContent:"center"
     },
     contC_text:{
-        marginLeft:10,
+        //marginLeft:"5%",
+        textAlignVertical:"center",
+        height:"100%",
+        fontSize:13,
+        padding:"1%",
+        paddingLeft:"2.5%",
+        paddingRight:"2.5%",
         color:"white",
-        
+        width:"100%",
+        backgroundColor:"#969f6e",
     }
 })

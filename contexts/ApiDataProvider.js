@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useEffect,useState } from 'react'
+import React, {createContext, useContext, useEffect,useState,useLayoutEffect,useRef } from 'react'
 import {Text} from 'react-native'
 import { Conversation_id_function,startTime } from '../utils/function'
 import axios from 'axios'
@@ -9,7 +9,7 @@ export function useApiData(){
     return useContext(apiData)
 }
 
-export function ApiDataProvider({children}){
+export function ApiDataProvider({children,session,url}){
 
     const [allRequests,setAllRequests] = useState([])
     const [conversationId, setConversationId] = useState(Conversation_id_function())
@@ -20,12 +20,14 @@ export function ApiDataProvider({children}){
     const [responseButton,setResponseButton] = useState()
     const [error,setError] = useState()
 
-    const [refs,setRefs] = useState()
-    const [scrollToIndex,setScrollToIndex] = useState()
-    let sessionId='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
+    const myRef = useRef()
 
-    let pageUrl ='127.0.0.1'
     
+    let sessionId = session
+
+    let pageUrl = url
+    
+
 
      useEffect(()=>{
         let request = {
@@ -46,7 +48,7 @@ export function ApiDataProvider({children}){
                 
            }).catch((err)=>{
                
-              // handleRequestError(err)
+              handleRequestError(err)
            })
            request.count++;
         }
@@ -184,12 +186,14 @@ export function ApiDataProvider({children}){
         setAllRequests([...allRequests,...ALL_REQUESTS,...ACTION_TEXT]);
         setResponseButton(RESPONSE_BUTTON);
     
-        
+       
      }
     
     function handleSearchQuery(input){
         setLoading(true)
         
+        if(input==='')
+            handleRequestError({message:''})
 
         let request = {
                 conversationId: conversationId,
@@ -202,15 +206,16 @@ export function ApiDataProvider({children}){
             }  
         // push request to allRequest array
             
-          setAllRequests([...allRequests,request])
+          request.query!=='' && setAllRequests([...allRequests,request])
           setResponseButton()
+          scrollHandler()
         //only run the handle Response if input state is available 
 
-            request.query && axios.post(`https://abwm.vitt.ai/`,request).then((response)=>{
+            request.query!=='' && axios.post(`https://abwm.vitt.ai/`,request).then((response)=>{
             
-                console.log("control is finished execution",request)
+            
              handleResponse(response,allRequests,setAllRequests,conversationId,setGenerativeQn,request) 
-             
+             scrollHandler()
 
            }).catch((err)=>{
 
@@ -223,14 +228,15 @@ export function ApiDataProvider({children}){
         setLoading(false)
     }
 
-    // function scrollHandler(){
-    //     console.log('i am ref',refs)
-    //     refs.scrollToEnd()
-    //     // refs.scrollTo({
-    //     //     y:allRequests.length-1,
-    //     // })
-        
-    // }
+    function scrollHandler(){
+
+        //need to wait until all the chat msg renders 
+        setTimeout(()=>{
+            myRef?.current?.scrollToEnd()
+        },500)
+       
+    }
+   
     
 
     const values={
@@ -246,10 +252,8 @@ export function ApiDataProvider({children}){
         loading,
         setLoading,
         handleSearchQuery,
-        scrollToIndex,
-        setScrollToIndex,
-        refs,
-        setRefs,
+        scrollHandler,
+        myRef,
     }
     return (
         <apiData.Provider value={values}>
@@ -257,7 +261,6 @@ export function ApiDataProvider({children}){
         </apiData.Provider>
     )
 }
-
 
 
 

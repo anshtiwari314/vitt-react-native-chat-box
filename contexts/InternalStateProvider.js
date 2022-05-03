@@ -1,5 +1,5 @@
-import React,{createContext,useContext,useState} from 'react'
-import {View,Text} from 'react-native'
+import React,{createContext,useContext,useState,useEffect,useRef} from 'react'
+import {View,Text,Keyboard} from 'react-native'
 
 
 const InternalState = createContext()
@@ -11,7 +11,6 @@ export function useInternalState(){
 export function InternalStateProvider({children,showChatWindow,setShowChatWindow}){
 
     
-    console.log('i am showChatWindow',showChatWindow)
 
     const [item,setItem] = useState({
         isActive:false,
@@ -21,7 +20,26 @@ export function InternalStateProvider({children,showChatWindow,setShowChatWindow
 
     const [notification,setNotification] = useState(-1);
     const [visibleBottomSheet,setVisibleBottomSheet] = useState(false)
+    const [keyboardStatus,setKeyboardStatus] = useState(false)
+    const keyboardRef=useRef(false)
 
+    useEffect(()=>{
+        const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+            setKeyboardStatus(true);
+            keyboardRef.current =true
+          });
+
+          const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+            setKeyboardStatus(false);
+            keyboardRef.current = false
+          });
+      
+          return () => {
+            showSubscription.remove();
+            hideSubscription.remove();
+          };
+    },[])
+    
     const values ={
         item,
         setItem,
@@ -30,7 +48,9 @@ export function InternalStateProvider({children,showChatWindow,setShowChatWindow
         notification,
         setNotification,
         visibleBottomSheet,
-        setVisibleBottomSheet
+        setVisibleBottomSheet,
+        keyboardStatus,
+        keyboardRef
     }
     return(
         <InternalState.Provider value={values}>

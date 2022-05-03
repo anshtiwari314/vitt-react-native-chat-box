@@ -53,7 +53,7 @@ export default function TableMsg ({data}) {
 const styles = StyleSheet.create({
     TM:{
         backgroundColor:"#969f6e",
-        width:300
+        width:250
     },
     TM_title:{
         color:"white",

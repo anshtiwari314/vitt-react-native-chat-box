@@ -4,11 +4,9 @@ import {Text,Image,View,Modal,Pressable,StyleSheet} from 'react-native'
 import { RotationGestureHandler } from 'react-native-gesture-handler';
 
 //utilities
-import uuid from '../../utils/utils.js'
-import { useInternalState } from '../contexts/InternalStateProvider';
+import { useInternalState } from '../contexts/InternalStateProvider.js';
 
-// user defined components
-import ChatWindow from './ChatWindow'
+
 
 
 export default function BotIcon(){
@@ -20,7 +18,7 @@ export default function BotIcon(){
             
             <View style={styles.wrapper}>
                 <Pressable onPress={()=>setIsModalOpen(true)} style={styles.button}>
-                    <Image style={styles.image} source={require(`../../images/Fab64x64.png`)}  />
+                    <Image style={styles.image} source={require(`../images/Fab64x64.png`)}  />
                 </Pressable>
             </View>
             
@@ -31,7 +29,7 @@ export default function BotIcon(){
 const styles= StyleSheet.create({
     wrapper:{
         
-        // backgroundColor:"violet",
+        //backgroundColor:"violet",
         height:"100%",
         width:"100%",
 

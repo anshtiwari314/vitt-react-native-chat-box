@@ -1,7 +1,7 @@
 import { View, Text,StyleSheet } from 'react-native'
 import React,{useState,useEffect} from 'react'
 
-export default function TextMsg ({data}){
+export default function TextMsg ({data,colorType}){
 
 
   const [checkUrlExist,setCheckUrlExist] = useState(false)
@@ -33,7 +33,6 @@ export default function TextMsg ({data}){
 		data && urlFinder()
 	}, [data])
 
-  checkUrlExist && console.log(urlMsg)
 
   return (
       <View>
@@ -43,7 +42,7 @@ export default function TextMsg ({data}){
               <Text style={styles.TM_link}>{urlMsg.link}</Text>
             </> 
             : 
-            <Text style={styles.TM_text}>{data}</Text>
+            <Text style={colorType}>{data}</Text>
             }
       </View>
   )
@@ -57,7 +56,9 @@ const styles = StyleSheet.create({
     color:"white"
   },
   TM_link:{
-    color:"blue"
-  }
+    color:"#3E593c"
+  },
+  text:{
+    color:"white",
+  },
 })
-
