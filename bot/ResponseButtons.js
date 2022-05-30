@@ -1,20 +1,42 @@
 import React from 'react'
 import {View,Text, Pressable,StyleSheet} from 'react-native'
 import { useApiData } from '../contexts/ApiDataProvider'
+import { useInternalState } from '../contexts/InternalStateProvider'
+import {getSchemaId} from '../utils/function'
 
 export default function ResponseButtons(){
 
     const {responseButton,allRequests,setAllRequests,loading,setLoading,handleSearchQuery,scrollHandler} =useApiData()
-   
+    const {navigation} = useInternalState()
+
+    const investNowProps = {
+        schemaCode:1234,
+        folio:'new Folio',
+        app_source:true,
+        schemeData:{
+            schemeName:'Aditya Birla Capital'
+        }
+    }
     return(
         // RB => Response Buttons
         <View style={styles.RB}>
             {responseButton && responseButton.map((m,i)=>{
-            return  <View key={i} style={styles.RB_wrapper}>
-                        <Pressable style={styles.RB_wrapper_button} onPress={()=>{!loading &&  handleSearchQuery(m.query);}}>
-                            <Text style={styles.RB_wrapper_button_text}>{m.query}</Text>
-                        </Pressable>
-                    </View>
+                if(m.newTabUrl ){
+                    investNowProps.schemaCode = getSchemaId(m.newTabUrl)
+                    return  <View key={i*39} style={styles.RB_wrapper}>
+                                <Pressable style={styles.RB_wrapper_button} onPress={()=>{navigation.navigate('Addtocart',investNowProps )} }>
+                                    <Text style={styles.RB_wrapper_button_text}>{m.query}</Text>
+                                </Pressable>
+                            </View>
+                    
+                }else {
+                    return  <View key={i*59} style={styles.RB_wrapper}>
+                                <Pressable style={styles.RB_wrapper_button} onPress={()=>{!loading &&  handleSearchQuery(m.query);}}>
+                                    <Text style={styles.RB_wrapper_button_text}>{m.query}</Text>
+                                </Pressable>
+                            </View>
+                }
+            
             }) }
             
         </View>
@@ -53,3 +75,10 @@ const styles = StyleSheet.create({
         color:"black"
     }
 })
+
+
+
+
+
+
+

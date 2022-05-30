@@ -9,6 +9,53 @@ import axios from 'axios'
 //     return ip
 // }
 
+export function getIndexOfSchemaId(url){
+    if (!url)
+    return 
+    //let url = 'https://vitt'
+    
+    let subStr = 'schemeid'   
+
+    let m = url.length 
+    let n = subStr.length 
+
+    for (let i = 0; i <= m ; i++) {
+        let j;
+
+        for (j = 0; j < n ; j++){
+            
+            // console.log(url.charAt(i + j)," ",subStr.charAt(j),i+j," ",j ,url.charAt(i + j) == subStr.charAt(j) )
+            if (url.charAt(i + j) != subStr.charAt(j)){
+                
+                break;
+            }
+        }
+        if (j === n)
+            return i;
+    }
+
+    return -1;
+}
+
+export function isNum(val){
+    return !isNaN(val)
+}
+
+export function getSchemaId(url){
+
+    let index = getIndexOfSchemaId(url)
+    
+    //console.log(url.charAt(index+9))
+
+    index= index+9
+    let index2 = index
+    
+    while(isNum(url.charAt(index2) ) ){
+        index2++ 
+    }
+    return parseInt(url.substring(index,index2))
+    
+}
 
 
 export const startTime = () => {

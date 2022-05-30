@@ -1,11 +1,6 @@
-
 # vitt-react-native-chat-box
 
 A chat bot featured AI integration 
-
-
-
-
 ## Dependencies
 
 Axios 
@@ -13,7 +8,10 @@ Axios
 ```bash
   npm install axios
 ```
-
+react navigation
+```bash 
+    npm install @react-navigation/native
+```
 ## Installation
 
 clone in your root project directory
@@ -26,30 +24,54 @@ clone in your root project directory
 ```bash
   import VittBot from './vitt-react-native-chat-box'
 ```
-    
 ## Usage/Examples
 
-App.js 
+App.js (with navigation) 
+ 
 
-```javascript
-
-import VittBot from './vitt-react-native-chat-box'
-import React,{useState} from 'react'
-
-const [showChatWindow,setShowChatWindow] = useState(true)
-
-const sessionId = 'provide session id here'
-const currentUrl = 'provide Ip from where the request to be sent'
+```javascript 
 
 function App() {
 
-  return <VittBot 
-              showChatWindow={showChatWindow} 
-              setShowChatWindow={setShowChatWindow}
-              session=sessionId 
-              url = currentUrl
-          />
-}
+// u can also use navigation other than stack
+
+  const [open,setOpen] = useState(true)
+
+  const sessionId = 'provide session id here'
+  const currentUrl = 'provide Ip from where the request to be sent'
+  
+  const Stack = createStackNavigator()
+
+  return (
+    
+    <NavigationContainer >
+      <Stack.Navigator>
+          
+          <Stack.Screen name="VittBot" >
+             {(props)=> <VittBot 
+                                {...props} 
+                                showChatWindow={open} 
+                                setShowChatWindow={setOpen} 
+                                session=sessionId 
+                                url = currentUrl
+                        />}
+          </Stack.Screen> 
+          
+          <Stack.Screen name="Addtocart" component={Addtocart}/>
+          <Stack.Screen name="ELSS" component={ELSS}/>
+          <Stack.Screen name="ExploreNewFunds" component={ExploreNewFunds}/>
+          <Stack.Screen name="Loans" component={Loans}/>
+          <Stack.Screen name="MyReports" component={MyReports}/>
+          <Stack.Screen name="MySip" component={MySip}/>
+          <Stack.Screen name="MyTransaction" component={MyTransaction}/>
+          <Stack.Screen name="NFO" component={NFO}/>
+          <Stack.Screen name="Portfolio" component={Portfolio}/>
+          <Stack.Screen name="Tax" component={Tax}/>
+          <Stack.Screen name="TopTabBarDashboard" component={TopTabBarDashboard}/>
+          <Stack.Screen name="Transaction" component={Transaction}/>
+          <Stack.Screen name="WEALTH" component={WEALTH}/> 
+      </Stack.Navigator>
+    </NavigationContainer>
 ```
 
 
@@ -59,10 +81,6 @@ function App() {
 | Parameter           | Type        | Description    | Default value                |
 | :--------           | :-------    | :------------  | :-------------------------   |
 | `showChatWindow`    | `boolean`   | **Required**.  |
-| `setShowChatWindow` |  `function` | **Required**.  |  
+| `setShowChatWindow` |  `function` | **Optional**.  |  
 | `session`           |  `String`   | **Optional**   | -1
 | `url`               | `String`    | **Optional**   |   null
-
-
-
-

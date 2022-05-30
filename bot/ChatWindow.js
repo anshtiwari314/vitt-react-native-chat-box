@@ -1,5 +1,6 @@
 import React,{ useEffect } from 'react'
 import {View,Text,StyleSheet,ScrollView,KeyboardAvoidingView} from 'react-native'
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
 import { ReceivingMessage, SendingMessage } from './ChatMsg'
 import WindowHeader from './WindowHeader'
 import FooterInput from './FooterInput'
@@ -29,7 +30,9 @@ export default function ChatWindow(){
             <WindowHeader />
             
             {/* <ReceivingMessage Component={Text} data={"Hello Guest, can I help you by finding your product of interest?"}/> */}
+            
             <View style={{height:"70%",flex:keyboardStatus ? 6 : 10,marginTop:2,backgroundColor:"white"}} >
+            
             <ScrollView ref={(ref)=>{myRef.current=ref }} >
              {allRequests && allRequests.map((m,i)=>{
                 if(m.query !==""){
@@ -40,7 +43,6 @@ export default function ChatWindow(){
                     else if(m.type == "card")
                         return <ReceivingMessage key={i} Component={TableMsg} query={m.query} time={m.time}/>
                     else if(m.type == "image"){
-                            console.log('i am image query',m.query)
                             //return <ReceivingMessage key={i} Component={TextMsg} query={'hello'} time={'07:55 PM'}/>
                         return <ReceivingMessage key={i} Component={ImageMsg} query={m.query} time={m.time} />
                     
@@ -62,12 +64,13 @@ export default function ChatWindow(){
                     {visibleBottomSheet && <BottomSheet/> }
                     <BottomSheetIcon/>
             </KeyboardAvoidingView>
-                    
+            
                     {/* <FooterInput/> */}
                     
             {/* <KeyboardAvoidingView style={{position:"absolute",bottom:0}}> 
                     <FooterInput/>
             </KeyboardAvoidingView> */}
+            
             <KeyboardAvoidingView style={{flex:keyboardStatus ? 1 : 1}}> 
                     <FooterInput/>
             </KeyboardAvoidingView>

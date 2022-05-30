@@ -1,9 +1,11 @@
-import { View, Text,StyleSheet } from 'react-native'
+import { View, Text,StyleSheet,TouchableOpacity,Linking } from 'react-native'
 import React,{useState,useEffect} from 'react'
+import urlMapping from '../utils/url-mappings'
+import { useInternalState } from '../contexts/InternalStateProvider'
 
 export default function TextMsg ({data,colorType}){
 
-
+  const {navigation} = useInternalState()
   const [checkUrlExist,setCheckUrlExist] = useState(false)
   const [urlMsg,setUrlMsg] = useState({mainText:"",string:"",link:""})
     
@@ -33,13 +35,42 @@ export default function TextMsg ({data,colorType}){
 		data && urlFinder()
 	}, [data])
 
+  let flag = false
+
+ 
 
   return (
       <View>
             {checkUrlExist ? 
             <>
               <Text style={styles.TM_text}>{urlMsg?.mainText} {urlMsg?.string}</Text> 
-              <Text style={styles.TM_link}>{urlMsg.link}</Text>
+                  
+                  <>
+                  {
+                  urlMapping.map((ele,i) => {
+                    
+                      if(ele.url===urlMsg.link){
+                        flag=true
+                      return  <TouchableOpacity key={i} onPress={()=>navigation.navigate(ele.page,ele.props)}>
+                                <Text style={styles.TM_link}>{urlMsg.link}</Text>
+                              </TouchableOpacity>
+                      }
+                    })
+                  }
+                  
+                  {
+                    flag===false && 
+                    <Text 
+                        key={Math.floor(Math.random() * (3000 - 2077 + 1) + 2077)}      
+                        style={styles.TM_link} 
+                        onPress ={()=>{Linking.openURL(`${urlMsg.link}`)} }
+                        >
+                          {urlMsg.link}
+                    </Text>
+                   
+                  }
+                    </>
+              
             </> 
             : 
             <Text style={colorType}>{data}</Text>

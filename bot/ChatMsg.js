@@ -45,12 +45,12 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius:0,
         backgroundColor:"#969f6e",
         
-        shadowColor:"black",
-        shadowOffset:{width:10,height:20},
-        elevation:10,
-        shadowRadius:3,
-        shadowOpacity:1
+        shadowColor:"#000000",
+        shadowOffset:{width:0,height:2},
+        shadowRadius:2,
+        shadowOpacity:0.1,
 
+        elevation:10,
     },
     SM:{
         flexDirection:"row",
@@ -74,11 +74,12 @@ const styles = StyleSheet.create({
         borderBottomRightRadius:0,
         backgroundColor:"#f1f3f6",
 
-        shadowColor:"black",
-        shadowOffset:{width:30,height:10},
+        shadowColor:"#000000",
+        shadowOffset:{width:0,height:2},
+        shadowRadius:2,
+        shadowOpacity:0.1,
+
         elevation:10,
-        shadowRadius:3,
-        shadowOpacity:1
     },
     RM_text:{
         color:"white"

@@ -8,16 +8,13 @@ export function useInternalState(){
    return useContext(InternalState)
 } 
 
-export function InternalStateProvider({children,showChatWindow,setShowChatWindow}){
-
-    
+export function InternalStateProvider({children,showChatWindow,setShowChatWindow,navigation}){
 
     const [item,setItem] = useState({
         isActive:false,
         icon:"../images/Fab64x64.png"
     });
     
-
     const [notification,setNotification] = useState(-1);
     const [visibleBottomSheet,setVisibleBottomSheet] = useState(false)
     const [keyboardStatus,setKeyboardStatus] = useState(false)
@@ -50,7 +47,8 @@ export function InternalStateProvider({children,showChatWindow,setShowChatWindow
         visibleBottomSheet,
         setVisibleBottomSheet,
         keyboardStatus,
-        keyboardRef
+        keyboardRef,
+        navigation
     }
     return(
         <InternalState.Provider value={values}>
