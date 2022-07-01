@@ -3,20 +3,16 @@ import {View,Text, Pressable,StyleSheet} from 'react-native'
 import { useApiData } from '../contexts/ApiDataProvider'
 import { useInternalState } from '../contexts/InternalStateProvider'
 import {getSchemaId} from '../utils/function'
+import JsonObj from '../utils/url-mappings'
 
 export default function ResponseButtons(){
 
     const {responseButton,allRequests,setAllRequests,loading,setLoading,handleSearchQuery,scrollHandler} =useApiData()
     const {navigation} = useInternalState()
 
-    const investNowProps = {
-        schemaCode:1234,
-        folio:'new Folio',
-        app_source:true,
-        schemeData:{
-            schemeName:'Aditya Birla Capital'
-        }
-    }
+    
+    const investNowProps = JsonObj.filter(ele=>ele.id===1)[0].props
+    
     return(
         // RB => Response Buttons
         <View style={styles.RB}>
