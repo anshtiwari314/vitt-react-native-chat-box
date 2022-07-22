@@ -1,6 +1,6 @@
 import React,{ useEffect } from 'react'
-import {View,Text,StyleSheet,ScrollView,KeyboardAvoidingView} from 'react-native'
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view'
+import {View,Text,StyleSheet,Keyboard,ScrollView,} from 'react-native'
+
 import { ReceivingMessage, SendingMessage } from './ChatMsg'
 import WindowHeader from './WindowHeader'
 import FooterInput from './FooterInput'
@@ -11,7 +11,7 @@ import TextMsg from './TextMsg'
 import BottomSheetIcon from './BottomSheetIcon'
 import ResponseButtons from './ResponseButtons'
 import { useInternalState } from '../contexts/InternalStateProvider'
-import { startTime } from '../utils/function'
+
 import ImageMsg from './ImageMsg'
 import { useApiData } from '../contexts/ApiDataProvider'
 import BottomSheet from './BottomSheet'
@@ -19,7 +19,7 @@ import BottomSheet from './BottomSheet'
 
 export default function ChatWindow(){
 
-    const {allRequests,error,setError,refs,setRefs,myRef} = useApiData()
+    const {allRequests,myRef} = useApiData()
     
     const {keyboardStatus,visibleBottomSheet} = useInternalState()
 
@@ -31,8 +31,8 @@ export default function ChatWindow(){
             
             {/* <ReceivingMessage Component={Text} data={"Hello Guest, can I help you by finding your product of interest?"}/> */}
             
-            <View style={{height:"70%",flex:keyboardStatus ? 6 : 10,marginTop:2,backgroundColor:"white"}} >
-            
+            {/* <View style={{flex:keyboardStatus ? 6 : 10,marginTop:2,backgroundColor:"orange"}} > */}
+            <View style={{flex:keyboardStatus ? 0.72 : 0.77 , paddingTop:2,backgroundColor:"white"}} >
             <ScrollView ref={(ref)=>{myRef.current=ref }} >
              {allRequests && allRequests.map((m,i)=>{
                 if(m.query !==""){
@@ -54,27 +54,12 @@ export default function ChatWindow(){
             
             } 
                 <ResponseButtons/>
-
                
             </ScrollView>
             
             </View>
             
-            <KeyboardAvoidingView style={{width:"90%",position:"absolute",bottom:keyboardStatus ? 75:100,right:5}}> 
-                    {visibleBottomSheet && <BottomSheet/> }
-                    <BottomSheetIcon/>
-            </KeyboardAvoidingView>
-            
-                    {/* <FooterInput/> */}
-                    
-            {/* <KeyboardAvoidingView style={{position:"absolute",bottom:0}}> 
-                    <FooterInput/>
-            </KeyboardAvoidingView> */}
-            
-            <KeyboardAvoidingView style={{flex:keyboardStatus ? 1 : 1}}> 
-                    <FooterInput/>
-            </KeyboardAvoidingView>
-            
+            <FooterInput/>
         </>
          
 

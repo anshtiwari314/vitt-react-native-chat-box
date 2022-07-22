@@ -9,8 +9,9 @@ export default function WindowHeader(){
 
 
     return (
-        <View style={{flex:keyboardStatus ? 2: 2,backgroundColor:"#c72229",justifyContent:"space-between",flexDirection:"column"}}>
-            <View style={styles.contA}>
+        // <View style={{flex:keyboardStatus ? 2: 2,backgroundColor:"#c72229",justifyContent:"space-between",flexDirection:"column"}}>
+        <View style={{flex:0.15,backgroundColor:"#c72229",justifyContent:"space-between",flexDirection:"column"}}>
+           <View style={styles.contA}>
                 
             </View>
             <View style={styles.contB}>
@@ -19,9 +20,8 @@ export default function WindowHeader(){
                 </View>
                 <Image 
                     source={{uri:"https://c3india.s3.ap-south-1.amazonaws.com/public_assets/data/000/000/344/original/BirlaCapitalLogo_jpeg?1538291690"}}
-                    style={styles.contB_image}
+                    style={{...styles.contB_image,}}
                 />
-
 
             </View>
             <View style={styles.contC}> 
@@ -33,18 +33,19 @@ export default function WindowHeader(){
 
 const styles=StyleSheet.create({
     container:{
-        width:"100%",
-        backgroundColor:"#c72229",
-        position:"relative",
-        flexDirection:"column",
-        justifyContent:"space-between",
+        // width:"100%",
+        // backgroundColor:"#c72229",
+        // position:"relative",
+        // flexDirection:"column",
+        // justifyContent:"space-between",
+        // paddingTop:5
         // height:100,
         
     },
     contA:{
         position:"relative",
         // height:"20%",
-        flex:1
+        flex:0.1
         //backgroundColor:"violet"
     },
     contA_image:{
@@ -56,7 +57,7 @@ const styles=StyleSheet.create({
     },
     contB:{
         // height:"35%",
-        flex:4,
+        flex:0.5,
         width:"95%",
         marginLeft:"2.5%",
         flexDirection:"row",
@@ -77,29 +78,33 @@ const styles=StyleSheet.create({
         textTransform:"uppercase"
     },
     contB_image:{
-        width:126,
-        height:30,
+        //width:126,
+        //height:30,
+        width:105,
+        height:25
     },
     contC:{
         // position:"absolute",
         // bottom:0,
         //height:
-        flex:5,
+        flex:0.4,
         marginTop:2,
         width:"100%",
         display:"flex",
-        justifyContent:"center"
+        justifyContent:"flex-start",
+        flexDirection:"row",
+        backgroundColor:"#969f6e",
     },
     contC_text:{
         //marginLeft:"5%",
         textAlignVertical:"center",
-        height:"100%",
+        flex:0.9,
         fontSize:13,
-        padding:"1%",
-        paddingLeft:"2.5%",
-        paddingRight:"2.5%",
+        // padding:"1%",
+        paddingLeft:5,
+        // paddingRight:"2.5%",
         color:"white",
-        width:"100%",
-        backgroundColor:"#969f6e",
+        
+        
     }
 })

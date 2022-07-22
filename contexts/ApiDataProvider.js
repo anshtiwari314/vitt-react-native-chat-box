@@ -37,7 +37,7 @@ export function ApiDataProvider({children,session,url}){
             query: "hi!",
             session: sessionId,
             time: startTime(),
-            type: "sent"
+            type: "sent",
         }
         
         function firstAPiCall(){

@@ -35,8 +35,6 @@ function App() {
 
 // u can also use navigation other than stack
 
-  const [open,setOpen] = useState(true)
-
   const sessionId = 'provide session id here'
   const currentUrl = 'provide Ip from where the request to be sent'
   
@@ -47,14 +45,8 @@ function App() {
     <NavigationContainer >
       <Stack.Navigator>
           
-          <Stack.Screen name="VittBot" >
-             {(props)=> <VittBot 
-                                {...props} 
-                                showChatWindow={open} 
-                                setShowChatWindow={setOpen} 
-                                session=sessionId 
-                                url = currentUrl
-                        />}
+         <Stack.Screen name="VittBot" options={{headerShown:false}}>
+             {(props)=> <VittBot {...props}   />}
           </Stack.Screen> 
           
           <Stack.Screen name="Addtocart" component={Addtocart}/>
@@ -79,8 +71,6 @@ function App() {
 
 
 | Parameter           | Type        | Description    | Default value                |
-| :--------           | :-------    | :------------  | :-------------------------   |
-| `showChatWindow`    | `boolean`   | **Required**.  |
-| `setShowChatWindow` |  `function` | **Optional**.  |  
+| :--------           | :-------    | :------------  | :-------------------------   |  
 | `session`           |  `String`   | **Optional**   | -1
 | `url`               | `String`    | **Optional**   |   null

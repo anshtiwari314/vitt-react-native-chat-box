@@ -4,10 +4,10 @@ export default mapping = [
         url:'https://wealth.adityabirlacapital.com/mf-transaction/OrderIntermediate',
         page:'Addtocart',
         props:{
-            schemaCode:1234,
-            folio:'new Folio',
+            schemeCode:1234,
+            folio:'New Folio',
             schemeData:{
-                schemeName:'Aditya Birla Capital'
+                SchemeName:'Aditya Birla Capital'
             }
         }
     },
@@ -16,19 +16,21 @@ export default mapping = [
         url:'https://wealth.adityabirlacapital.com/mf/ProfileDetail',
         page:'Transaction',
         props:{
-            schemaCode:1234,
-            folio:'new Folio',
+            schemeCode:1234,
+            folio:'New Folio',
             schemeData:{
-                schemeName:'Aditya Birla Capital'
+                SchemeName:'Aditya Birla Capital'
             }
         }
     },
-    {   id:3,
+    {
+        id:3,
         url:'https://wealth.adityabirlacapital.com/mf-transaction/Reports',
         page:'MyReports',
         props:{}
     },
-    {   id:4,
+    {   
+        id:4,
         url:'https://wealth.adityabirlacapital.com/mf-transaction/MySIP',
         page:'MySip',
         props:{}
@@ -38,16 +40,16 @@ export default mapping = [
         page:'Tax',
         props:{}
     },
-    {   id:6,
+    {   
+        id:6,
         url:'https://wealth.adityabirlacapital.com/fixeddeposit/',
         page:'TopTabBarDashboard',
         props:{
             goldData:{},
             selectedType:'FD',
             indexPosition:2,
-            profileName:'name',
-            getKey:'getKey',
-            
+            profileName:'',
+            getKey:'',
         }
     },
     {   id:7,
@@ -57,17 +59,17 @@ export default mapping = [
             goldData:{},
             selectedType:'equity',
             indexPosition:3,
-            profileName:'name',
-            getKey:'getKey',
-            
+            profileName:'',
+            getKey:'',
         }
     },
-    {   id:8,
+    {   
+        id:8,
         url:'https://wealth.adityabirlacapital.com/mf-transaction/Category',
         page:'ExploreNewFunds',
         props:{}
     },
-    {
+    {   
         id:9,
         url:'https://wealth.adityabirlacapital.com/digital-gold/',
         page:'TopTabBarDashboard',
@@ -75,8 +77,8 @@ export default mapping = [
             goldData:{},
             selectedType:'gold',
             indexPosition:1,
-            profileName:'name',
-            getKey:'getKey',
+            profileName:'',
+            getKey:'',
         }
     },
     {   
@@ -85,48 +87,55 @@ export default mapping = [
         page:'Loans',
         props:{}
     },
-    {
+    {   
         id:11,
         url:'https://wealth.adityabirlacapital.com/home-loan-india/',
         page:'Loans',
         props:{}
     },
-    {
+    {   
         id:12,
         url:'https://wealth.adityabirlacapital.com/mf-transaction/mytransaction',
         page:'MyTransaction',
         props:{}
     },
-    {   id:13,
+    {   
+        id:13,
         url:'https://wealth.adityabirlacapital.com/mf-transaction/Elss-campaign',
         page:'ELSS',
         props:{}
     },
-    {   id:14,
+    {
+        id:14,
         url:'https://wealth.adityabirlacapital.com/mf-transaction/Portfolio',
         page:'Portfolio',
-        props:{}
+        props:{
+            objectUsersUUIDArray:[]
+        }
     },
-    {   id:15,
+    {   
+        id:15,
         url:'https://wealth.adityabirlacapital.com/mf-transaction/dashboard',
         page:'TopTabBarDashboard',
         props:{
             goldData:{},
             selectedType:'mf',
             indexPosition:0,
-            profileName:'name',
-            getKey:'getKey',
+            profileName:'',
+            getKey:'',
         }
     },
-    {   id:16,
+    {   
+        id:16,
         url:'https://wealth.adityabirlacapital.com/',
         page:'WEALTH',
         props:{}
     },
     
-    {   id:17,
+    {   
+        id:17,
         url:'https://wealth.adityabirlacapital.com/mf-transaction/NFO',
         page:'NFO',
         props:{}
-    }
+    },
 ]

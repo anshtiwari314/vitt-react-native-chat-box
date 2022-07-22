@@ -8,7 +8,7 @@ export function useInternalState(){
    return useContext(InternalState)
 } 
 
-export function InternalStateProvider({children,showChatWindow,setShowChatWindow,navigation}){
+export function InternalStateProvider({children,navigation}){
 
     const [item,setItem] = useState({
         isActive:false,
@@ -40,8 +40,6 @@ export function InternalStateProvider({children,showChatWindow,setShowChatWindow
     const values ={
         item,
         setItem,
-        showChatWindow,
-        setShowChatWindow,
         notification,
         setNotification,
         visibleBottomSheet,
