@@ -1,7 +1,8 @@
 import React, {createContext, useContext, useEffect,useState,useLayoutEffect,useRef } from 'react'
-import {Text} from 'react-native'
+import {Text,ToastAndroid,PermissionsAndroid} from 'react-native'
 import { Conversation_id_function,startTime } from '../utils/function'
 import axios from 'axios'
+import LiveAudioStream from '../react-native-live-audio-stream';
 
 const apiData = createContext()
 
@@ -18,16 +19,43 @@ export function ApiDataProvider({children,session,url}){
 
     const [generativeQn,setGenerativeQn] = useState()
     const [responseButton,setResponseButton] = useState()
+    const [permissionsGranted,setPermissionsGranted] = useState([])
     const [error,setError] = useState()
 
     const myRef = useRef()
+    const [recording,setRecording]= useState(false)
+    const base64StorageRef = useRef([])
+    const [visibleText,setVisibleText] = useState(false)
+    const recordingTimeRef = useRef(null)
 
-    
     let sessionId = session
 
     let pageUrl = url
     
 
+    const requestMicrophonePermission = async () => {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+            
+          );
+          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+            console.log('You can use the Mic');
+            setPermissionsGranted(p=>[...p,PermissionsAndroid.PERMISSIONS.RECORD_AUDIO])
+          } else {
+            console.log('Mic permission denied');
+            ToastAndroid.show("Microphone Permission Denied", ToastAndroid.LONG);
+          }
+        } catch (err) {
+          console.warn(err);
+        }
+      };
+      
+     
+
+      useEffect(()=>{
+        requestMicrophonePermission()
+      },[])
 
      useEffect(()=>{
         let request = {
@@ -57,6 +85,7 @@ export function ApiDataProvider({children,session,url}){
 
     function handleRequestError(error){
         
+        console.log("error occured",error)
         let errorsQuery = "";
                     
         if (error.message.includes("Network")) errorsQuery = "There seems to be an issue with your internet connection. Please check."
@@ -99,9 +128,9 @@ export function ApiDataProvider({children,session,url}){
          // variable determine the position of table before text msg or after text msg
          // by default table position is after text 
          let tablePosition = false 
-         
-         if(response.data.result.fulfillment.data.type === 'card'){
-    
+         console.log("statement1 crssed",response.data.result)
+         if(response.data.result.fulfillment?.data?.type === 'card'){
+            
     
              tableData.query = response.data.result.fulfillment.data.data
              isTablePresent= true;
@@ -116,11 +145,12 @@ export function ApiDataProvider({children,session,url}){
          }
          
          let trial = []
-         response.data.result.fulfillment.data.DownButton.GenerativeQuestion.map((m,i)=>{
+         console.log("statement2 crssed")
+         response.data.result.fulfillment?.data?.DownButton.GenerativeQuestion.map((m,i)=>{
              if (trial.length <10) trial.push(m);
          });
          setGenerativeQn([...trial])
-    
+         console.log("statement3 crssed")
          response.data.result.fulfillment.messages.map((m)=>{
              
              if(m.type === 0 && m.speech !== ""){
@@ -179,7 +209,7 @@ export function ApiDataProvider({children,session,url}){
          if (isTablePresent && !tablePosition) {
              ALL_REQUESTS.push(tableData)
          }
-        
+         console.log("statement4 crssed")
         if(request)
         setAllRequests([...allRequests,request,...ALL_REQUESTS,...ACTION_TEXT]);
         else 
@@ -213,12 +243,13 @@ export function ApiDataProvider({children,session,url}){
 
             request.query!=='' && axios.post(`https://abwm.vitt.ai/`,request).then((response)=>{
             
+                console.log("response",response.data.result.fulfillment.messages)
             
-             handleResponse(response,allRequests,setAllRequests,conversationId,setGenerativeQn,request) 
+                handleResponse(response,allRequests,setAllRequests,conversationId,setGenerativeQn,request) 
              scrollHandler()
 
            }).catch((err)=>{
-
+                console.log("error1",err)
                 handleRequestError(err)
 
            })
@@ -237,7 +268,122 @@ export function ApiDataProvider({children,session,url}){
        
     }
    
+    function handleAudioResponse(response){
+        let request=null
+        handleResponse(response,allRequests,setAllRequests,conversationId,setGenerativeQn,request)
+    }
+
+    function sendDataToServer(){
+        console.log("send data to server",base64StorageRef.current.length)
+        
+        const showToast = () => {
+          
+        }
+  
+        //showToast()
+  
+        
+        
+  
+        let d = new Date()
+        console.log()
+        axios.post('http://35.187.246.238/abfl',{
+          sessionid:"abcde456901", 
+          from:"abw_mobile_bot", 
+          audiomessage:base64StorageRef.current, 
+          req_timestamp:`${d.getFullYear()}-${d.getMonth()}-${d.getDate()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}:${d.getMilliseconds()}`
+        })
+        .then((res)=>{
+          console.warn("res from server",res.data)
+          try{
+            if(res.data.result.fulfillment)
+                handleAudioResponse(res)
+                scrollHandler()
+          }catch(e){
+            console.log("fulfillment not exist",e)
+          }
+          
+         // ToastAndroid.show("data receiving from server", ToastAndroid.SHORT);
+        })
+        .catch((err)=>{
+          console.warn("error",err)
+          //ToastAndroid.show(err.toString(), ToastAndroid.SHORT);
+        })
+        base64StorageRef.current = []
+      }
+  
+      function startRecording(d){
+          //setRecording({true})
+          LiveAudioStream.start();
+        }
+  
+      function stopRecording(d){
+          LiveAudioStream.stop();
+          // setTimeout(()=>{
+          //   //setRecording(false)
+          //   sendDataToServer()
+          // },100)
+          
+      }
+
+      function startTimeCalculation(){
+
+        let d = new Date()
+
+        recordingTimeRef.current=d.getTime()
+        console.log("recording time ref",recordingTimeRef.current)
+    }
+
+    function stopTimeCalculation(){
+        localStartTime=recordingTimeRef.current
+        let endDate = new Date()
+
+        timeDiff = endDate.getTime()-localStartTime
+        console.log("time",timeDiff/1000," ",timeDiff,endDate.getTime(),localStartTime)
+        timeInSec=timeDiff/1000
+        if(timeInSec<=1){
+          //reset the recordings 
+          base64StorageRef.current = []
+            setVisibleText(true)
+            setTimeout(()=>{
+                setVisibleText(false)
+            },3000)
+        }else{
+          sendDataToServer()
+        }
+    }
+
+      useEffect(()=>{
+        const options = {
+          sampleRate: 32000,  // default is 44100 but 32000 is adequate for accurate voice recognition
+          channels: 1,        // 1 or 2, default 1
+          bitsPerSample: 16,  // 8 or 16, default 16
+          audioSource: 6,     // android only (see below)
+          bufferSize: 4096    // default is 2048
+        };
+        
+        console.log("LiveAudioStream",LiveAudioStream)
+        LiveAudioStream.init(options);
+        
+        let count = 0
+        LiveAudioStream.on('data', data => {
+          // base64-encoded audio data chunks
+          base64StorageRef.current.push(data)
+          let d= new Date()
+          console.log(base64StorageRef.current.length,d.toLocaleTimeString())
+        });
+      },[permissionsGranted])
+
+      useEffect(()=>{
+        // if(!recording)
+        // return ;
+        
+        // setTimeout(()=>{
+        //   stopRecording()
+        //   setRecording(false)
+        // },3000)
     
+      },[recording])
 
     const values={
         allRequests,
@@ -253,7 +399,8 @@ export function ApiDataProvider({children,session,url}){
         setLoading,
         handleSearchQuery,
         scrollHandler,
-        myRef,
+        myRef,handleAudioResponse,recording,setRecording,startRecording,stopRecording,
+        startTimeCalculation,stopTimeCalculation,visibleText,setVisibleText
     }
     return (
         <apiData.Provider value={values}>

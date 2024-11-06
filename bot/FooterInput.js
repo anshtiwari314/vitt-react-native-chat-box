@@ -28,6 +28,13 @@ export default function FooterInput(){
                             // keyboardType="numeric"
                         />
                         <Pressable style={{
+
+                        }}>
+                            
+                        </Pressable>
+                        <Pressable style={{
+                            //borderWidth:5,
+                            //borderColor:'black',
                             width:"15%",
                             height:"100%",
                             // minHeight:50,

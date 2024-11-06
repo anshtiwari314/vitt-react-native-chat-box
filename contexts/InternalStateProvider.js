@@ -1,5 +1,7 @@
 import React,{createContext,useContext,useState,useEffect,useRef} from 'react'
-import {View,Text,Keyboard} from 'react-native'
+import {View,Text,Keyboard,ToastAndroid} from 'react-native'
+
+import Toast from 'react-native-toast-message';
 
 
 const InternalState = createContext()
@@ -8,7 +10,7 @@ export function useInternalState(){
    return useContext(InternalState)
 } 
 
-export function InternalStateProvider({children,navigation}){
+export function InternalStateProvider({children,navigation,session}){
 
     const [item,setItem] = useState({
         isActive:false,
@@ -19,6 +21,7 @@ export function InternalStateProvider({children,navigation}){
     const [visibleBottomSheet,setVisibleBottomSheet] = useState(false)
     const [keyboardStatus,setKeyboardStatus] = useState(false)
     const keyboardRef=useRef(false)
+    
 
     useEffect(()=>{
         const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
@@ -37,6 +40,8 @@ export function InternalStateProvider({children,navigation}){
           };
     },[])
     
+    
+
     const values ={
         item,
         setItem,
@@ -46,7 +51,7 @@ export function InternalStateProvider({children,navigation}){
         setVisibleBottomSheet,
         keyboardStatus,
         keyboardRef,
-        navigation
+        navigation,
     }
     return(
         <InternalState.Provider value={values}>
