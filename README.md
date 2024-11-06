@@ -8,13 +8,21 @@ Axios
 ```bash
   npm install axios
 ```
-react navigation
+React Navigation
 ```bash 
     npm install @react-navigation/native
 ```
+
+
+
+
+React Native Vector Icons [[installation guide]](https://www.npmjs.com/package/react-native-vector-icons)
+```bash 
+    npm i react-native-vector-icons
+```
 ## Installation
 
-clone in your root project directory
+Clone in your root project directory
 
 ```bash
   git clone https://github.com/anshtiwari314/vitt-react-native-chat-box
@@ -24,6 +32,13 @@ clone in your root project directory
 ```bash
   import VittBot from './vitt-react-native-chat-box'
 ```
+
+Declare permissions in  android/app/src/main/AndroidManifest.xml
+```bash
+  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+```
+
+
 ## Usage/Examples
 
 App.js (with navigation) 
@@ -38,6 +53,7 @@ function App() {
   const sessionId = 'provide session id here'
   const currentUrl = 'provide Ip from where the request to be sent'
   
+
   const Stack = createStackNavigator()
 
   return (
@@ -46,7 +62,7 @@ function App() {
       <Stack.Navigator>
           
          <Stack.Screen name="VittBot" options={{headerShown:false}}>
-             {(props)=> <VittBot {...props}   />}
+             {(props)=> <VittBot {...props} session={sessionId} url={currentUrl} />}
           </Stack.Screen> 
           
           <Stack.Screen name="Addtocart" component={Addtocart}/>
@@ -74,3 +90,5 @@ function App() {
 | :--------           | :-------    | :------------  | :-------------------------   |  
 | `session`           |  `String`   | **Optional**   | -1
 | `url`               | `String`    | **Optional**   |   null
+
+
